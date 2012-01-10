@@ -4,9 +4,10 @@ source('getTickMarkLabels.r');
 data <- read.table('Marrow2011ReAna.csv',header=TRUE,sep=',');
 # count.fields('Marrow2011ReAna.csv',sep=',')	#R can't handle ' in header!
 xmuuttuja = 'StratecMaMassD..g.cm³.';
-ymuuttuja = c('Radial.division.0.vBMD..mg.cm³.','Radial.division.1.vBMD..mg.cm³.','Radial.division.2.vBMD..mg.cm³.','MeA..mm².','CoA..mm².','MuA..cm².');
+ymuuttuja = c('Radial.division.0.vBMD..mg.cm³.','Radial.division.1.vBMD..mg.cm³.','Radial.division.2.vBMD..mg.cm³.','MeA..mm².','CoA..mm².','MuA..cm².',
+			'SSI..mm³.','CoD..mg.cm³.');
 xakseli = "MaD";
-yakseli = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA");
+yakseli = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA","SSI","CoD");
 
 
 pointColor  = c("#FFFFFF","#000000");
@@ -17,6 +18,9 @@ otsikot = c(
 	,substitute(paste(ya," [",mm^2,"]"),list(ya=yakseli[4]))
 	,substitute(paste(ya," [",mm^2,"]"),list(ya=yakseli[5]))
 	,substitute(paste(ya," [",cm^2,"]"),list(ya=yakseli[6]))
+	,substitute(paste(ya," [",mm^3,"]"),list(ya=yakseli[7]))
+	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=yakseli[8]))
+
 	);
 yksikot = c(
 	substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
@@ -25,10 +29,12 @@ yksikot = c(
 	,substitute(paste(ya," [",mm^2,"]"),list(ya=""))
 	,substitute(paste(ya," [",mm^2,"]"),list(ya=""))
 	,substitute(paste(ya," [",cm^2,"]"),list(ya=""))
+	,substitute(paste(ya," [",mm^3,"]"),list(ya=""))
+	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
 	);
 tickJakoja = 2;
 
-for(i in 1:6){
+for(i in 1:length(ymuuttuja)){
 	y = data[ymuuttuja[i]];
 	x = data[xmuuttuja];
 	myline.fit <- lm(y[,1] ~ x[,1])
