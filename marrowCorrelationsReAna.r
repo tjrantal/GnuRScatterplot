@@ -1,12 +1,12 @@
-dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011';	#Path to the data file.
+dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/';	#Path to the data file.
 dataFileName = 'Marrow2011ReAna.csv';							#Data file name
 rFilePath = dataFilePath;										#Path to getPlotLimits.r and getTickMarkLabels.r
 figureTargetPath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/Julkaisu/Scatterplots/';	#Path to where the figures will be saved.
 figureTargetPrefix = 'Scatterplot_';							#Prefix for figure names.
 #setwd('H:/UserData/winMigrationBU/Deakin/Marrow2011');	
-source(paste(rFilePath,'getPlotLimits.r'));
-source(paste(rFilePath,'getTickMarkLabels.r'));
-data <- read.table(paste(dataFilePath,dataFileName),header=TRUE,sep=',');
+source(paste(rFilePath,'getPlotLimits.r',sep=""));
+source(paste(rFilePath,'getTickMarkLabels.r',sep=""));
+data <- read.table(paste(dataFilePath,dataFileName,sep=""),header=TRUE,sep=',');
 # count.fields('Marrow2011ReAna.csv',sep=',')	#R can't handle ' in header!
 xVariable = 'StratecMaMassD..g.cm³.';
 yVariables = c('Radial.division.0.vBMD..mg.cm³.','Radial.division.1.vBMD..mg.cm³.','Radial.division.2.vBMD..mg.cm³.','MeA..mm².','CoA..mm².','MuA..cm².',

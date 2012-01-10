@@ -15,7 +15,7 @@ getPlotLimits <- function(dataIn,digitsIn,tickMarks) {
 	upperLimit = ceiling(max(dataIn,na.rm=TRUE)*multiplier )/multiplier;
 	upperTickLimit = upperLimit +1/multiplier;
 	if ((upperTickLimit*multiplier -lowerTickLimit*multiplier )%%tickMarks!= 0){
-		upperTickLimit = (upperTickLimit*multiplier +tickMarks-((upperTickLimit*multiplier -lowerTickLimit*multiplier )%%tickJakoja ))/multiplier; 
+		upperTickLimit = (upperTickLimit*multiplier +tickMarks-((upperTickLimit*multiplier -lowerTickLimit*multiplier )%%tickMarks))/multiplier; 
 	}
 	result = c(lowerLimit,upperLimit,lowerTickLimit,upperTickLimit);
 	return(result)
