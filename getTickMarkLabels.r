@@ -1,5 +1,5 @@
 #Function to create tick mark labels...
-getTickMarkLabels <- function(low, high, tickMarks,digitsIn){
+getTickMarkLabels <- function(low, high,digitsIn,tickMarks){
 	exponent= floor(log10(high));
 	if (exponent ==0){
 		exponent = exponent+1;

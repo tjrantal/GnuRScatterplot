@@ -14,6 +14,11 @@ yVariables = c('Radial.division.0.vBMD..mg.cm³.','Radial.division.1.vBMD..mg.cm
 xAxisTitle = "MaD";
 yAxisTitles = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA","SSI","CoD");
 pointColor  = c("#FFFFFF","#000000");
+yDesiredDigits = c(2,2,2,2,2,2,2,2);
+xDesiredDigits = c(3,3,3,3,3,3,3,3);
+yXtraSpace = c(0,0,0,0,0,0,0,0);
+xXtraSpace = c(1,1,1,1,1,1,1,1);
+
 
 units = c(
 	substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
@@ -37,13 +42,13 @@ for(i in 1:length(yVariables)){			#Loop to going through the yVariables
 	int =  summaryData$coefficients[1,1];
 	Rsq =  summaryData$r.squared[1];
 	png(paste(figureTargetPath, figureTargetPrefix,yAxisTitles[i],'.png', sep = ""),width=1800,height=1200,res=200);	#Create a png to plot to
-	par('mar' = c(2.7,2.8,3.0,1.1),'mgp'=c(1.55, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0);								#Margins bottom, left, top, right
+	par('mar' = c(3.3,3.6,3.0,1.1),'mgp'=c(2.2, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0);								#Margins bottom, left, top, right
 	#Get x-axis limits and ticks
-	xLimits <- getPlotLimits(data[xVariable],3,tickDivisions);
-	xTick <- getTickMarkLabels(xLimits[1],xLimits[2],tickDivisions,3);
+	xLimits <- getPlotLimits(data[xVariable],xDesiredDigits[i],tickDivisions,xXtraSpace[i]);
+	xTick <- getTickMarkLabels(xLimits[1],xLimits[2],xDesiredDigits[i],tickDivisions);
 	#Get y-axis limits and ticks
-	yLimits <- getPlotLimits(data[yVariables[i]],3,tickDivisions);
-	yTick <- getTickMarkLabels(yLimits[1],yLimits[2],tickDivisions,3);
+	yLimits <- getPlotLimits(data[yVariables[i]],yDesiredDigits[i],tickDivisions,yXtraSpace[i]);
+	yTick <- getTickMarkLabels(yLimits[1],yLimits[2],yDesiredDigits[i],tickDivisions);
 	#Plot the figure.
 	plot(
 		x[,1],y[,1],type='p', pch = 19,
@@ -62,17 +67,38 @@ for(i in 1:length(yVariables)){			#Loop to going through the yVariables
 	);
 
 	#ADD AXES
-	axis(1, at=xTick, labels = xTick);	#X-axis
-	axis(2, at=yTick, labels = yTick);	#Y-axis
+	axis(1, at=xTick, labels = xTick,tck = -0.02);	#X-axis
+	axis(2, at=yTick, labels = yTick,las = 2,tck = -0.02);	#Y-axis
 	#Add P-values, R2 and if significant, linear fit line.
 	if (pValue <= 0.05){
 		abline(lwd = 5.0,myline.fit) # draw the fit line on the plot
 	}
-	if (pValue < 0.001){
-		mtext("P < 0.001",line = -1.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
+	textXpos = c((xLimits[4]-xLimits[3])*0.9+xLimits[3],(xLimits[4]-xLimits[3])*0.8+xLimits[3]);
+	PText = "";
+	if (pValue <= 0.05){
+		#mtext("P < 0.001",line = -1.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
+		if (pValue < 0.001){
+			#text(textXpos[2] ,yLimits[3],"P < 0.001",pos=3,offset=0);
+			PText = "P < 0.001";
+		}
+		if (pValue < 0.01 && pValue >= 0.001){
+			#text(textXpos[2] ,yLimits[3],"P < 0.01",pos=3,offset=0);
+			PText = "P < 0.01";
+		}
+		if (pValue <= 0.05 && pValue >= 0.01){
+			#text(textXpos[2] ,yLimits[3],"P < 0.05",pos=3,offset=0);
+			PText = "P < 0.05";
+		}
 	}else{
-		mtext(bquote(P == .(round(pValue*1000)/1000)),line = -1.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
+		#mtext(bquote(P == .(round(pValue*1000)/1000)),line = -1.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
+		#text(textXpos[2],yLimits[3],bquote(P == .(round(pValue*100)/100)),pos=3,offset=0);
+		PText = paste("P = ",format(pValue,digits=2,nsmall=2),sep="");
 	}
-	mtext(bquote(R^2 == .(round(Rsq*100)/100)),line = -0.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
+	#mtext(bquote(R^2 == .(round(Rsq*100)/100)),line = -0.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
+	#text(textXpos[1] ,yLimits[3],bquote(R^2 == .(round(Rsq*100)/100)),pos=3,offset=0);
+	RText = paste("=",format(round(Rsq*100)/100,digits=2,nsmall=2));
+	text(textXpos[2] ,yLimits[3],substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0);
+	
+
 	dev.off()
 }
