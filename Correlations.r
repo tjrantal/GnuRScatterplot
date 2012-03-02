@@ -21,6 +21,7 @@ groupedData.group2 = subset(dataIn,Ryhmä == 3 | Ryhmä == 5 | Ryhmä == 6);
 dim(groupedData.group2);
 groupedData = list(groupedData.group1,groupedData.group2);
 
+groupSymbols = c("\u25CF","\u25CB");
 
 groundIndices = getGroupIndices();
 xAxisTitles = c("MaD");
@@ -118,7 +119,7 @@ for (j in 1:length(xVariables)){
 				PText = paste("P = ",format(round(pValue,digits=2),nsmall =2,digits =2),sep="");
 			}
 			RText = paste("=",format(round(Rsq,digits=2),nsmall=2,digits=2));
-			mtext(substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)), side = 3, line = g-1,col = pointColor[g+1],adj = 1,cex = 2.0);
+			mtext(substitute(paste(yc,yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText,yc=groupSymbols[g])), side = 3, line = g-1,col = pointColor[g+1],adj = 1,cex = 2.0);
 			#text(textXpos[2] ,yLimits[3]+(yLimits[4]-yLimits[3])*0.1*(g-1),substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0,col = pointColor[g+1]);
 		}
 	dev.off();
