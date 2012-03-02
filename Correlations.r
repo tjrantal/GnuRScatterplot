@@ -96,7 +96,7 @@ for (j in 1:length(xVariables)){
 				axis(1, at=xTick, labels = xTick,tck = -0.02);	#X-axis
 				axis(2, at=yTick, labels = yTick,las = 2,tck = -0.02);	#Y-axis
 			}else{
-				points(x[,1],y[,1],type='p', pch = 19,col = pointColor[g+1]);
+				points(x[,1],y[,1],type='p', pch=21,col = pointColor[2],bg =NA);
 			}
 			#Add P-values, R2 and if significant, linear fit line.
 			if (pValue <= 0.05){
@@ -118,7 +118,8 @@ for (j in 1:length(xVariables)){
 				PText = paste("P = ",format(round(pValue,digits=2),nsmall =2,digits =2),sep="");
 			}
 			RText = paste("=",format(round(Rsq,digits=2),nsmall=2,digits=2));
-			text(textXpos[2] ,yLimits[3]+(yLimits[4]-yLimits[3])*0.1*(g-1),substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0,col = pointColor[g+1]);
+			mtext(substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)), side = 3, line = g-1,col = pointColor[g+1],adj = 1,cex = 2.0);
+			#text(textXpos[2] ,yLimits[3]+(yLimits[4]-yLimits[3])*0.1*(g-1),substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0,col = pointColor[g+1]);
 		}
 	dev.off();
 	}
