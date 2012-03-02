@@ -1,33 +1,40 @@
-dataFilePath = 'H:/UserData/winMigrationBU/Deakin/GENTS/JULKAISU/';	#Path to the data file.
-dataFileName = 'BoneMuscle2012.csv';							#Data file name
+dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/';	#Path to the data file.
+dataFileName = 'Marrow2011ReAna.csv';							#Data file name
 rFilePath = dataFilePath;										#Path to getPlotLimits.r and getTickMarkLabels.r
-figureTargetPath = 'H:/UserData/winMigrationBU/Deakin/GENTS/JULKAISU/scatterplots/';	#Path to where the figures will be saved.
+figureTargetPath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/Julkaisu/Scatterplots/';	#Path to where the figures will be saved.
 figureTargetPrefix = 'Scatterplot_';							#Prefix for figure names.
 
 source(paste(rFilePath,'getPlotLimits.r',sep=""));
 source(paste(rFilePath,'getTickMarkLabels.r',sep=""));
 data <- read.table(paste(dataFilePath,dataFileName,sep=""),header=TRUE,sep=',');
 # count.fields('Marrow2011ReAna.csv',sep=',')	#R can't handle ' in header!
-xVariables = c('fmal_0','tmarl0');
-yVariables = c('mdcaml_0','mdipml_0');
-xAxisTitles = c("Thigh CSA","Shank CSA");
-yAxisTitles = c("Tibial mid-shaft CoA","Tibial mid-shaft IPo");
+xVariables = c('StratecMaMassD..g.cm³.');
+yVariables = c('Radial.division.0.vBMD..mg.cm³.','Radial.division.1.vBMD..mg.cm³.','Radial.division.2.vBMD..mg.cm³.','MeA..mm².','CoA..mm².','MuA..cm².',
+			'SSI..mm³.','CoD..mg.cm³.');
+xAxisTitles = c("MaD");
+yAxisTitles = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA","SSI","CoD");
 
 xunits = c(
-	substitute(paste(xa," [",mm^2,"]"),list(xa=xAxisTitles[1]))
-	,substitute(paste(xa," [",mm^2,"]"),list(xa=xAxisTitles[2]))
+	substitute(paste(xa," [",mg/cm^3,"]"),list(xa=xAxisTitles[1]))
 	);
 
 yunits = c(
-	substitute(paste(ya," [",mm^2,"]"),list(ya=""))
-	,substitute(paste(ya," [",mm^4,"]"),list(ya=""))
+	substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
+	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
+	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
+	,substitute(paste(ya," [",mm^2,"]"),list(ya=""))
+	,substitute(paste(ya," [",mm^2,"]"),list(ya=""))
+	,substitute(paste(ya," [",cm^2,"]"),list(ya=""))
+	,substitute(paste(ya," [",mm^3,"]"),list(ya=""))
+	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
 	);
 
-yDesiredDigits = c(3,3,3,3,3,3,3,3);
+yDesiredDigits = c(2,2,2,2,2,2,2,2);
 xDesiredDigits = c(3,3,3,3,3,3,3,3);
 
-xXtraSpace = c(1,1,1,1,1,1,1,1);
 yXtraSpace = c(0,0,0,0,0,0,0,0);
+xXtraSpace = c(1,1,1,1,1,1,1,1);
+
 
 tickDivisions = 2;
 pointColor  = c("#FFFFFF","#000000");

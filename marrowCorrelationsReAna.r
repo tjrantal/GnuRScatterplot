@@ -12,7 +12,7 @@ xVariable = 'StratecMaMassD..g.cm³.';
 yVariables = c('Radial.division.0.vBMD..mg.cm³.','Radial.division.1.vBMD..mg.cm³.','Radial.division.2.vBMD..mg.cm³.','MeA..mm².','CoA..mm².','MuA..cm².',
 			'SSI..mm³.','CoD..mg.cm³.');
 xAxisTitle = "MaD";
-yAxisTitles = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA","SSI","CoD");
+yAxisTitles = c("Tibial mid-shaft CoA","Tibial mid-shaft IPo");
 pointColor  = c("#FFFFFF","#000000");
 yDesiredDigits = c(2,2,2,2,2,2,2,2);
 xDesiredDigits = c(3,3,3,3,3,3,3,3);
