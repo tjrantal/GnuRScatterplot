@@ -16,6 +16,7 @@ yAxisTitles = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA","SSI","CoD");
 pointColor  = c("#FFFFFF","#000000");
 yDesiredDigits = c(2,2,2,2,2,2,2,2);
 xDesiredDigits = c(3,3,3,3,3,3,3,3);
+#xDesiredDigits = c(4,4,4,4,4,4,4,4);
 yXtraSpace = c(0,0,0,0,0,0,0,0);
 xXtraSpace = c(1,1,1,1,1,1,1,1);
 
@@ -46,6 +47,7 @@ for(i in 1:length(yVariables)){			#Loop to going through the yVariables
 	#Get x-axis limits and ticks
 	xLimits <- getPlotLimits(data[xVariable],xDesiredDigits[i],tickDivisions,xXtraSpace[i]);
 	xTick <- getTickMarkLabels(xLimits[1],xLimits[2],xDesiredDigits[i],tickDivisions);
+
 	#Get y-axis limits and ticks
 	yLimits <- getPlotLimits(data[yVariables[i]],yDesiredDigits[i],tickDivisions,yXtraSpace[i]);
 	yTick <- getTickMarkLabels(yLimits[1],yLimits[2],yDesiredDigits[i],tickDivisions);
@@ -76,27 +78,19 @@ for(i in 1:length(yVariables)){			#Loop to going through the yVariables
 	textXpos = c((xLimits[4]-xLimits[3])*0.9+xLimits[3],(xLimits[4]-xLimits[3])*0.8+xLimits[3]);
 	PText = "";
 	if (pValue <= 0.05){
-		#mtext("P < 0.001",line = -1.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
 		if (pValue < 0.001){
-			#text(textXpos[2] ,yLimits[3],"P < 0.001",pos=3,offset=0);
 			PText = "P < 0.001";
 		}
 		if (pValue < 0.01 && pValue >= 0.001){
-			#text(textXpos[2] ,yLimits[3],"P < 0.01",pos=3,offset=0);
 			PText = "P < 0.01";
 		}
 		if (pValue <= 0.05 && pValue >= 0.01){
-			#text(textXpos[2] ,yLimits[3],"P < 0.05",pos=3,offset=0);
 			PText = "P < 0.05";
 		}
 	}else{
-		#mtext(bquote(P == .(round(pValue*1000)/1000)),line = -1.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
-		#text(textXpos[2],yLimits[3],bquote(P == .(round(pValue*100)/100)),pos=3,offset=0);
-		PText = paste("P = ",format(pValue,digits=2,nsmall=2),sep="");
+		PText = paste("P = ",format(round(pValue,digits=2),nsmall =2,digits =2),sep="");
 	}
-	#mtext(bquote(R^2 == .(round(Rsq*100)/100)),line = -0.5, at=max(data[xVariable],na.rm=TRUE),cex = 2.0);
-	#text(textXpos[1] ,yLimits[3],bquote(R^2 == .(round(Rsq*100)/100)),pos=3,offset=0);
-	RText = paste("=",format(round(Rsq*100)/100,digits=2,nsmall=2));
+	RText = paste("=",format(round(Rsq,digits=2),nsmall=2,digits=2));
 	text(textXpos[2] ,yLimits[3],substitute(paste(yb,", ",R^2,ya,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0);
 	
 

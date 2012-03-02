@@ -4,11 +4,8 @@
 #digits:	How many significant figures are required
 #tickMarks:	How many tickmarks are required
 #returns:	An array [lowerLimit,upperLimit,lowerTickLimit,upperTickLimit]
-getPlotLimits <- function(dataIn,digitsIn,tickMarks,xtraSpace) {
+getPlotLimits <- function(dataIn,digitsIn,tickMarks,xtraSpace) { #DEBUG dataIn =data[xVariable] digitsIn=xDesiredDigits[i] tickMarks=tickDivisions xtraSpace=xXtraSpace[i]
 	exponent= floor(log10(max(dataIn,na.rm=TRUE)));
-	if (exponent ==0){
-		exponent = exponent+1;
-	} 
 	multiplier = 10^((digitsIn-1)-exponent);
 	lowerLimit = floor(min(dataIn,na.rm=TRUE)*multiplier )/multiplier;
 	lowerTickLimit = lowerLimit-xtraSpace/multiplier;#;# 
