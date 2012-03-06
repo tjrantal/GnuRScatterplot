@@ -1,3 +1,6 @@
+
+#Ubuntu execute from R command line source("/media/sf_Deakin/Marrow2011/BarGraphsBuntu.r")
+
 dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/';	#Path to the data file.
 dataFilePath = '/home/timo/Desktop/Media/sf_Deakin/Marrow2011/';	#Path to the data file.
 dataFileName = 'Marrow2011ReAnaB.csv';							#Data file name

@@ -1,3 +1,5 @@
+#Ubuntu execute from R command line source("/media/sf_Deakin/Marrow2011/CorrelationsBuntu.r")
+
 dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/';	#Path to the data file.
 dataFilePath = '/home/timo/Desktop/Media/sf_Deakin/Marrow2011/';	#Path to the data file.
 dataFileName = 'Marrow2011ReAnaB.csv';							#Data file name
@@ -51,7 +53,7 @@ xXtraSpace = c(1,1,1,1,1,1,1,1);
 
 
 tickDivisions = 2;
-pointColor  = c("#ffffff","#777777","#000000");
+pointColor  = c("#ffffff","#000000","#000000");
 
 for (j in 1:length(xVariables)){
 	for(i in 1:length(yVariables)){			#Loop to going through the yVariables
@@ -98,11 +100,11 @@ for (j in 1:length(xVariables)){
 				axis(1, at=xTick, labels = xTick,tck = -0.02);	#X-axis
 				axis(2, at=yTick, labels = yTick,las = 2,tck = -0.02);	#Y-axis
 			}else{
-				points(x[,1],y[,1],type='p', pch=21,col = pointColor[g+1],bg =NA);
+				points(x[,1],y[,1],type='p', pch=21,col = pointColor[g+1],bg ="white");
 			}
 			#Add P-values, R2 and if significant, linear fit line.
 			if (pValue <= 0.05){
-				abline(lwd = 5.0,myline.fit,col = pointColor[g+1]) # draw the fit line on the plot
+				abline(lwd = 5.0,myline.fit,col = pointColor[g+1],lty =g) # draw the fit line on the plot
 			}
 			textXpos = c((xLimits[4]-xLimits[3])*0.9+xLimits[3],(xLimits[4]-xLimits[3])*0.8+xLimits[3]);
 			PText = "";
