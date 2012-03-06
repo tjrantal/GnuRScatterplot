@@ -32,7 +32,25 @@ units = c(
 
 desiredDigits = c(2,2,2,2,2,3,2,2);
 
-
+#Set y-axis limits and ticks manually
+yTicks = c(
+			c(0.94,0.96,0.98),
+			c(10,20,30),
+			c(50,60,70),
+			c(300,350,400),
+			c(1500,2000,2500),
+			c(1100,1130,1160)
+			);
+dim(yTicks) = c(3,6);
+yLims = c(
+			c(0.94,0.98,0.94,0.98),
+			c(10,30,10,32),
+			c(50,70,47,70),
+			c(300,400,280,410),
+			c(1500,2500,1500,2500),
+			c(1160,1100,1100,1160)
+			);
+dim(yLims) = c(4,6);
 yXtraSpace = c(0,0,0,0,0,0,0,0);
 xXtraSpace = c(1,1,1,1,1,1,1,1);
 
@@ -54,7 +72,9 @@ for (i in 1:length(variables)){
 	#Get y-axis limits and ticks
 	#yLimits <- getPlotLimits(c(c(averages[,2])+c(stdevs[,2]),c(averages[,2])-c(stdevs[,2])),desiredDigits[i],tickDivisions,yXtraSpace[i]);
 	yLimits <- getPlotLimits(c(c(averages[,2])+CIs,c(averages[,2])-CIs),desiredDigits[i],tickDivisions,yXtraSpace[i]);
+	yLimits = yLims[,i];
 	yTick <- getTickMarkLabels(yLimits[1],yLimits[2],desiredDigits[i],tickDivisions);
+	yTick = yTicks[,i];
 	png(paste(figureTargetPath, figureTargetPrefix,100+i,axisTitles[i],'.png', sep = ""),width=1800,height=1200,res=200);	#Create a png to plot to
 	par('mar' = c(3.3,3.8,3.0,1.1),'mgp'=c(2.7, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0);								#Margins bottom, left, top, right
 	#Plot the figure.
