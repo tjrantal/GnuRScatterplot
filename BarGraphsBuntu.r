@@ -24,12 +24,12 @@ axisTitles = c("MaD","Fat Percentage","Muscle CSA","CoA","SSI","CoD");
 
 
 units = c(
-	substitute(paste(xa," [",mg/cm^3,"]"),list(xa=axisTitles[1])),
-	substitute(paste(xa," [%]"),list(xa=axisTitles[2])),
-	substitute(paste(xa," [",cm^2,"]"),list(xa=axisTitles[3])),
-	substitute(paste(xa," [",mm^2,"]"),list(xa=axisTitles[4])),
-	substitute(paste(xa," [",mm^3,"]"),list(xa=axisTitles[5])),
-	substitute(paste(xa," [",mg/cm^3,"]"),list(xa=axisTitles[6]))
+	substitute(paste(xa," [",mg/cm^3,"]"),list(xa="")),
+	substitute(paste(xa," [%]"),list(xa="")),
+	substitute(paste(xa," [",cm^2,"]"),list(xa="")),
+	substitute(paste(xa," [",mm^2,"]"),list(xa="")),
+	substitute(paste(xa," [",mm^3,"]"),list(xa="")),
+	substitute(paste(xa," [",mg/cm^3,"]"),list(xa=""))
 	);
 
 
@@ -37,14 +37,14 @@ desiredDigits = c(2,2,2,2,2,3,2,2);
 
 #Set y-axis limits and ticks manually
 yTicks = c(
-			c(0.94,0.96,0.98),
-			c(10,20,30),
-			c(50,60,70),
-			c(300,350,400),
-			c(1500,2000,2500),
-			c(1100,1130,1160)
+			c(0,0.94,0.96,0.98),
+			c(0,10,20,30),
+			c(0,50,60,70),
+			c(0,300,350,400),
+			c(0,1500,2000,2500),
+			c(0,1100,1130,1160)
 			);
-dim(yTicks) = c(3,6);
+dim(yTicks) = c(4,6);
 yLims = c(
 			c(0.94,0.98,0.94,0.98),
 			c(10,30,10,32),
@@ -76,7 +76,7 @@ for (i in 1:length(variables)){
 	#yLimits <- getPlotLimits(c(c(averages[,2])+c(stdevs[,2]),c(averages[,2])-c(stdevs[,2])),desiredDigits[i],tickDivisions,yXtraSpace[i]);
 	yLimits <- getPlotLimits(c(c(averages[,2])+CIs,c(averages[,2])-CIs),desiredDigits[i],tickDivisions,yXtraSpace[i]);
 	yLimits = yLims[,i];
-	yTick <- getTickMarkLabels(yLimits[1],yLimits[2],desiredDigits[i],tickDivisions);
+	yTick <- getTickMarkLabelsIntersect(yLimits[1],yLimits[2],desiredDigits[i],tickDivisions);
 	yTick = yTicks[,i];
 	png(paste(figureTargetPath, figureTargetPrefix,100+i,axisTitles[i],'.png', sep = ""),width=1800,height=1200,res=200);	#Create a png to plot to
 	par('mar' = c(3.3,3.8,3.0,1.1),'mgp'=c(2.7, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0);								#Margins bottom, left, top, right
@@ -91,7 +91,9 @@ for (i in 1:length(variables)){
 		col="white"
 	);
 	#Plot y-axis
+	axis(1, at=c(-1,8));	#X-axis
 	axis(2, at=yTick, labels = yTick,las = 2,tck = -0.02);	#Y-axis
+	
 	errorbar(barPlot,c(averages[,2]), CIs)
 	dev.off();
 }

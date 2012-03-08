@@ -10,6 +10,7 @@ figureTargetPrefix = 'Scatterplot_';							#Prefix for figure names.
 
 source(paste(rFilePath,'getPlotLimits.r',sep=""));
 source(paste(rFilePath,'getTickMarkLabels.r',sep=""));
+source(paste(rFilePath,'getTickMarkLabelsIntersect.r',sep=""));
 dataIn <- read.table(paste(dataFilePath,dataFileName,sep=""),header=TRUE,sep=',');
 # count.fields('Marrow2011ReAna.csv',sep=',')	#R can't handle ' in header!
 xVariables = c('StratecMaMassD..g.cm..');
@@ -60,11 +61,11 @@ for (j in 1:length(xVariables)){
 		#Create figure to plot to
 		#Get x-axis limits and ticks
 		xLimits <- getPlotLimits(dataIn[xVariables[j]],xDesiredDigits[i],tickDivisions,xXtraSpace[i]);
-		xTick <- getTickMarkLabels(xLimits[1],xLimits[2],xDesiredDigits[i],tickDivisions);
+		xTick <- getTickMarkLabelsIntersect(xLimits[1],xLimits[2],xDesiredDigits[i],tickDivisions);
 
 		#Get y-axis limits and ticks
 		yLimits <- getPlotLimits(dataIn[yVariables[i]],yDesiredDigits[i],tickDivisions,yXtraSpace[i]);
-		yTick <- getTickMarkLabels(yLimits[1],yLimits[2],yDesiredDigits[i],tickDivisions);
+		yTick <- getTickMarkLabelsIntersect(yLimits[1],yLimits[2],yDesiredDigits[i],tickDivisions);
 		png(paste(figureTargetPath, figureTargetPrefix,xAxisTitles[j],'_',yAxisTitles[i],'.png', sep = ""),width=1800,height=1200,res=200);	#Create a png to plot to
 		par('mar' = c(3.3,3.6,3.0,1.1),'mgp'=c(2.2, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0);								#Margins bottom, left, top, right
 		for (g in 1:length(groupedData)){
@@ -85,8 +86,8 @@ for (j in 1:length(xVariables)){
 				plot(
 					x[,1],y[,1],type='p', pch = 19,
 					xlab = xunits[j],
-					xaxp = c(xLimits[1],xLimits[2],tickDivisions), #For determining, xtick length...
-					yaxp = c(yLimits[1],yLimits[2],tickDivisions ), #For determining, xtick length...
+					#xaxp = c(xLimits[1],xLimits[2],tickDivisions), #For determining, xtick length...
+					#yaxp = c(yLimits[1],yLimits[2],tickDivisions ), #For determining, xtick length...
 					ylab = yunits[i],
 					frame.plot = FALSE,
 					col = pointColor[g+1],
