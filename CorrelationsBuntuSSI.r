@@ -1,5 +1,4 @@
-#Ubuntu execute from R command line 
-#source("/media/sf_Deakin/Marrow2011/CorrelationsBuntuSSI.r")
+#Ubuntu execute from R command line source("/media/sf_Deakin/Marrow2011/CorrelationsBuntuManual.r")
 
 dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/';	#Path to the data file.
 dataFilePath = '/home/timo/Desktop/Media/sf_Deakin/Marrow2011/';	#Path to the data file.
@@ -16,8 +15,7 @@ source(paste(rFilePath,'getTickMarkLabelsIntersect.r',sep=""));
 dataIn <- read.table(paste(dataFilePath,dataFileName,sep=""),header=TRUE,sep=',');
 # count.fields('Marrow2011ReAna.csv',sep=',')	#R can't handle ' in header!
 xVariables = c('StratecMaMassD..g.cm..');
-yVariables = c('Radial.division.0.vBMD..mg.cm..','Radial.division.1.vBMD..mg.cm..','Radial.division.2.vBMD..mg.cm..','MeA..mm..','CoA..mm..','MuA..cm..',
-			'SSI..mm..','CoD..mg.cm..');
+yVariables = c('CoA..mm..','CoD..mg.cm..','SSI..mm..');
 
 
 #Creating groups, use subset http://www.ats.ucla.edu/stat/r/faq/subset_R.htm
@@ -31,45 +29,60 @@ groupedData = list(groupedData.group1,groupedData.group2);
 groupSymbols = c("\u25CF","\u25CB");
 
 xAxisTitles = c("MaD");
-yAxisTitles = c("EndoD","MidD","PeriD","MeA","CoA","Muscle CSA","SSI","CoD");
+yAxisTitles = c("Cortical Area","Cortical Density","SSI");
 
 xunits = c(
 	substitute(paste(xa," [",mg/cm^3,"]"),list(xa=xAxisTitles[1]))
 	);
 
 yunits = c(
-	substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
+	substitute(paste(ya," [",mm^2,"]"),list(ya=""))
 	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
-	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
-	,substitute(paste(ya," [",mm^2,"]"),list(ya=""))
-	,substitute(paste(ya," [",mm^2,"]"),list(ya=""))
-	,substitute(paste(ya," [",cm^2,"]"),list(ya=""))
 	,substitute(paste(ya," [",mm^3,"]"),list(ya=""))
-	,substitute(paste(ya," [",mg/cm^3,"]"),list(ya=""))
 	);
 
-yDesiredDigits = c(2,2,2,2,2,2,2,2);
-xDesiredDigits = c(3,3,3,3,3,3,3,3);
-
-yXtraSpace = c(0,0,0,0,1,0,5,0);
-xXtraSpace = c(1,1,1,1,1,1,1,1);
+#Set x-axis limits and ticks manually
+xTicks = c(
+			c(0,0.92,0.94,0.96,0.98,1.0,1.02)
+			);
+dim(xTicks) = c(7,1);
+xLims = c(
+			c(0.92,1.02,0.92,1.02)
+			);
+dim(xLims) = c(4,1);
+	
+#Set y-axis limits and ticks manually
+yTicks = c(
+			c(100,200,300,400,500,700),
+			c(0,1000,1100,1200,1300,1500),
+			c(300,1100,1900,2700,3500,5000)
+						
+			);
+dim(yTicks) = c(6,3);
+yLims = c(
+			c(100,500,100,500),
+			c(1000,1200,1000,1200),
+			c(300,3500,300,3500)
+			);
+dim(yLims) = c(4,3);
 
 
 tickDivisions = 2;
 pointColor  = c("#ffffff","#000000","#000000");
 
 for (j in 1:length(xVariables)){
-	for(i in 7){#:length(yVariables)){			#Loop to going through the yVariables
+	for(i in 3){#:length(yVariables)){			#Loop to going through the yVariables
 		#Create figure to plot to
 		#Get x-axis limits and ticks
-		xLimits <- getXPlotLimits(dataIn[xVariables[j]],xDesiredDigits[i],tickDivisions,xXtraSpace[i]);
-		xTick <- getTickMarkLabelsIntersect(xLimits[1],xLimits[2],xDesiredDigits[i],tickDivisions);
-
+		xLimits = xLims[,1];
+		xTick = xTicks[,1];
+		
 		#Get y-axis limits and ticks
-		yLimits <- getPlotLimits(dataIn[yVariables[i]],yDesiredDigits[i],tickDivisions,yXtraSpace[i]);
-		yTick <- getTickMarkLabelsIntersect(yLimits[1],yLimits[2],yDesiredDigits[i],tickDivisions);
-		png(paste(figureTargetPath, figureTargetPrefix,xAxisTitles[j],'_',yAxisTitles[i],'.png', sep = ""),width=1800,height=1200,res=200);	#Create a png to plot to
-		par('mar' = c(3.3,3.6,3.0,1.1),'mgp'=c(2.2, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0);								#Margins bottom, left, top, right
+		yLimits = yLims[,i];
+		yTick = yTicks[,i];
+		
+		png(paste(figureTargetPath, figureTargetPrefix,100+i,xAxisTitles[j],'_',yAxisTitles[i],'.png', sep = ""),width=2400,height=2400,res=300);	#Create a png to plot to
+		par('mar' = c(3.6,4.0,3.0,1.1),'mgp'=c(2.5, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0, 'xaxs'="i", 'yaxs'="i");								#Margins bottom, left, top, right
 		for (g in 1:length(groupedData)){
 			groupData = groupedData[[g]];
 			x = dataIn[xVariables[j]];
@@ -112,7 +125,7 @@ for (j in 1:length(xVariables)){
 				if (pValue <= 0.05){
 					abline(lwd = 5.0,myline.fit,col = pointColor[g+1],lty =g) # draw the fit line on the plot
 				}
-				textXpos = c((xLimits[4]-xLimits[3])*0.9+xLimits[3],(xLimits[4]-xLimits[3])*0.8+xLimits[3]);
+				textXpos = c((xLimits[4]-xLimits[3])*0.9+xLimits[3],(xLimits[4]-xLimits[3])*0.75+xLimits[3]);
 				PText = "";
 				if (pValue <= 0.05){
 					if (pValue < 0.001){
@@ -129,7 +142,7 @@ for (j in 1:length(xVariables)){
 				}
 				RText = paste("=",format(round(Rsq,digits=2),nsmall=2,digits=2));
 				#mtext(substitute(paste(R^2,ya,", ",yb,sep=""),list(ya=RText,yb=PText)), side = 3, line = g-1,col = pointColor[g+1],adj = 1,cex = 1.8);
-				text(textXpos[2] ,yLimits[3]+(yLimits[4]-yLimits[3])*0.1*(g-1),substitute(paste(R^2,ya,", ",yb,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0,col = pointColor[g+1]);
+				text(textXpos[2] ,yLimits[3]+(yLimits[4]-yLimits[3])*0.05+(yLimits[4]-yLimits[3])*0.1*(g-1),substitute(paste("  ",R^2,ya,", ",yb,sep=""),list(ya=RText,yb=PText)),pos=3,offset=0,col = pointColor[g+1]);
 			}
 		}
 	dev.off();
