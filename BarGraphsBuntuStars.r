@@ -35,24 +35,24 @@ units = c(
 	);
 
 
-desiredDigits = c(2,2,2,2,2,3,2,2);
+desiredDigits = c(3,2,2,2,2,3,2,2);
 
 #Set y-axis limits and ticks manually
 yTicks = c(
-			c(0,0.94,0.96,0.98,0.98),
-			c(10,20,30,35,35),
+			c(0,"0.940","0.960","0.980",0.985),
+			c(10,20,30,40,40),
 			c(40,50,60,70,70),
 			c(250,300,350,400,450),
-			c(0,1500,2000,2500,2500),
+			c(1300,1700,2100,2500,2500),
 			c(0,1100,1130,1160,1160)
 			);
 dim(yTicks) = c(5,6);
 yLims = c(
 			c(0.94,0.98,0.94,0.98),
-			c(10,30,10,35),
+			c(10,30,10,40),
 			c(40,70,40,70),
 			c(250,450,250,450),
-			c(1500,2500,1500,2500),
+			c(1500,2500,1300,2500),
 			c(1100,1160,1100,1160)
 			);
 dim(yLims) = c(4,6);
@@ -83,10 +83,10 @@ for (i in 1:length(variables)){
 	yTick <- getTickMarkLabelsIntersect(yLimits[1],yLimits[2],desiredDigits[i],tickDivisions);
 	yTick = yTicks[,i];
 	png(paste(figureTargetPath, figureTargetPrefix,100+i,axisTitles[i],'.png', sep = ""),width=2400,height=2400,res=300);	#Create a png to plot to
-	par('mar' = c(3.3,3.8,3.0,1.1),'mgp'=c(2.7, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0, 'xaxs'="r", 'yaxs'="i");								#Margins bottom, left, top, right
+	par('mar' = c(3.6,4.0,3.0,1.1),'mgp'=c(2.7, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0, 'xaxs'="r", 'yaxs'="i");								#Margins bottom, left, top, right
 	#Plot the figure.
 	#barplot(height=averages[,], main=axisTitles[i], horiz=FALSE, names.arg=groups, cex.names=0.8);#,
-	barPlot = barplot(height=c(averages[,2]), main=axisTitles[i], horiz=FALSE, names.arg=groups, cex.names=0.8,	
+	barPlot = barplot(height=c(averages[,2]), main=axisTitles[i], horiz=FALSE, names.arg=groups, cex.names=1.0,	
 		yaxp = c(yLimits[1],yLimits[2],tickDivisions ), #For determining, xtick length...
 		ylab = units[i],
 		ylim=c(yLimits[3],yLimits[4]),

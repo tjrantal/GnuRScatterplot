@@ -1,4 +1,4 @@
-#Ubuntu execute from R command line source("/media/sf_Deakin/Marrow2011/CorrelationsBuntuManual.r")
+#Ubuntu execute from R command line source("/media/sf_Deakin/Marrow2011/CorrelationsBuntuSSI.r")
 
 dataFilePath = 'H:/UserData/winMigrationBU/Deakin/Marrow2011/';	#Path to the data file.
 dataFilePath = '/home/timo/Desktop/Media/sf_Deakin/Marrow2011/';	#Path to the data file.
@@ -43,7 +43,7 @@ yunits = c(
 
 #Set x-axis limits and ticks manually
 xTicks = c(
-			c(0,0.92,0.94,0.96,0.98,1.0,1.02)
+			c(0,"0.920","0.940","0.960","0.980","1.000","1.020")
 			);
 dim(xTicks) = c(7,1);
 xLims = c(
@@ -82,7 +82,7 @@ for (j in 1:length(xVariables)){
 		yTick = yTicks[,i];
 		
 		png(paste(figureTargetPath, figureTargetPrefix,100+i,xAxisTitles[j],'_',yAxisTitles[i],'.png', sep = ""),width=2400,height=2400,res=300);	#Create a png to plot to
-		par('mar' = c(3.6,4.0,3.0,1.1),'mgp'=c(2.5, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0, 'xaxs'="i", 'yaxs'="i");								#Margins bottom, left, top, right
+		par('mar' = c(3.6,4.0,3.0,1.1),'mgp'=c(2.7, 0.45, 0), 'bg' = pointColor[1],'cex'=2.0, 'xaxs'="i", 'yaxs'="i");								#Margins bottom, left, top, right
 		for (g in 1:length(groupedData)){
 			groupData = groupedData[[g]];
 			x = dataIn[xVariables[j]];
